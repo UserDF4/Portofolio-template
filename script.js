@@ -199,6 +199,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.querySelector('.close-btn');
 
     characterCards.forEach(card => {
+        const characterName = card.querySelector('.character-name').textContent;
+        const avatar = card.querySelector('.character-avatar');
+        const details = characterDetails[characterName];
+        if (details) {
+            if (details.Rarity === "★★★★★") {
+                avatar.style.background = "linear-gradient(135deg, #ab6e59 0%, #c89d6a 100%)";
+            } else {
+                avatar.style.background = "linear-gradient(135deg, #48436F 0%, #8E5FC5 100%)";
+            }
+        }
+
         card.addEventListener('click', function() {
             const characterName = this.querySelector('.character-name').textContent;
             const avatarImg = this.querySelector('.character-avatar img');
@@ -207,8 +218,17 @@ document.addEventListener('DOMContentLoaded', function() {
             modalImg.src = avatarImg.src;
             modalImg.alt = avatarImg.alt;
 
-            // Fill details
+            // Set popup styles based on rarity
             const details = characterDetails[characterName];
+            if (details && details.Rarity === "★★★★★") {
+                modalImg.style.background = "linear-gradient(135deg, #ab6e59 0%, #c89d6a 100%)";
+                modalDetails.style.borderLeft = "4px solid #ab6e59";
+            } else {
+                modalImg.style.background = "linear-gradient(135deg, #48436F 0%, #8E5FC5 100%)";
+                modalDetails.style.borderLeft = "4px solid #8E5FC5";
+            }
+
+            // Fill details
             if (details) {
                 let html = `<div class="modal-character-details-title">Character Details</div><div class="details-grid">`;
                 for (const [label, value] of Object.entries(details)) {
@@ -224,12 +244,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         card.addEventListener('mouseenter', function() {
-            const avatar = this.querySelector('.character-avatar');
             avatar.style.transform = 'scale(1.1)';
         });
 
         card.addEventListener('mouseleave', function() {
-            const avatar = this.querySelector('.character-avatar');
             avatar.style.transform = 'scale(1)';
         });
     });
